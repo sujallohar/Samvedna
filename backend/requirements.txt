@@ -1,0 +1,14 @@
+# AutiSense Backend — Python Dependencies
+# Install with: pip install -r requirements.txt
+
+# Samvedna backend dependencies
+# Install: pip install -r requirements.txt
+
+flask==3.0.0
+flask-cors==4.0.0
+firebase-admin==6.4.0
+groq==0.9.0
+python-dotenv==1.0.0
+gunicorn==21.2.0
+requests==2.31.0
+

@@ -1,0 +1,32 @@
+# AutiSense — Root .gitignore
+# Protects secrets, skips build artifacts
+
+# ── SECRETS — NEVER COMMIT THESE ────────────────
+backend/serviceAccountKey.json
+backend/.env
+**/*.key
+**/*.pem
+**/*credentials*.json
+
+# ── Python ───────────────────────────────────────
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+backend/*.pyo
+backend/*.egg-info/
+backend/dist/
+backend/build/
+
+# ── Node / Frontend ──────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+frontend/.env
+
+# ── OS ───────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.log
+*.swp
+.idea/
+.vscode/
