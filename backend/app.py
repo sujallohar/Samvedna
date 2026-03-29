@@ -246,30 +246,29 @@ def chat():
 
         # 🔥 GEMINI API (FREE)
         
+        # 🔥 GROQ API (FREE)
         groq_key = os.getenv("GROQ_API_KEY", "")
 
-        if os.getenv("GROQ_API_KEY"):
+        if groq_key:
             try:
                 from groq import Groq
 
-               
+                # ✅ SAFE INIT (no proxies issue)
                 client = Groq(api_key=groq_key)
+
+                system_prompt = build_system_prompt(asd_score)
+
                 response = client.chat.completions.create(
                     model="llama-3.1-8b-instant",
                     messages=[
-                        {
-                            "role": "system",
-                            "content": f"You are a supportive autism-friendly assistant. ASD Score: {asd_score}"
-                        },
-                        {
-                            "role": "user",
-                            "content": message
-                        }
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": message}
                     ],
                     temperature=0.7,
+                    max_tokens=200
                 )
 
-                reply = response.choices[0].message.content
+                reply = response.choices[0].message.content.strip()
 
                 return jsonify({
                     "success": True,
@@ -278,7 +277,7 @@ def chat():
                 }), 200
 
             except Exception as e:
-                print(f"Groq failed: {e}")
+                print("❌ Groq failed FULL ERROR:", repr(e))
 
         # 🧠 FALLBACK (rule-based logic)
         reply = rule_based_reply(message.lower(), asd_score)
