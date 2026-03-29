@@ -5,7 +5,7 @@
 
 import { useState, useRef, useEffect } from "react";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5001";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const getWelcome = (score) => {
   if (score < 25) return "Namaste! 🙏 I'm Mitra, your companion. How are you feeling today?";
@@ -64,6 +64,7 @@ export default function ChatBot({ asdScore = 0, asdLevel, sessionId, dark, theme
     ];
 
     try {
+      console.log("🌐 Backend URL:", BACKEND_URL);
       const res = await fetch(`${BACKEND_URL}/api/chat`, {
         method: "POST",
         headers: {
@@ -77,11 +78,16 @@ export default function ChatBot({ asdScore = 0, asdLevel, sessionId, dark, theme
         })
       });
 
-      if (!res.ok) throw new Error("Server error");
+      if (!res.ok) {
+        const text = await res.text();
+        console.error("❌ API Error:", text);
+        throw new Error("Server error");
+      }
 
       const data = await res.json();
+      console.log("🤖 Full response:", data);
 
-      const reply = data.reply || "I am here with you. 🌸";
+      const reply = data?.reply ?? "⚠️ No response from server";
       const model = data.model || "unknown";
 
       // Add bot message
