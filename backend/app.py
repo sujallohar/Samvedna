@@ -245,14 +245,15 @@ def chat():
         asd_score = float(data.get("asdScore", 0))
 
         # 🔥 GEMINI API (FREE)
-        gemini_key = os.getenv("GEMINI_API_KEY", "")
+        
+        groq_key = os.getenv("GROQ_API_KEY", "")
 
         if os.getenv("GROQ_API_KEY"):
             try:
                 from groq import Groq
 
-                client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-
+               
+                client = Groq(api_key=groq_key)
                 response = client.chat.completions.create(
                     model="llama-3.1-8b-instant",
                     messages=[

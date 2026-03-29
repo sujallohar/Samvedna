@@ -15,7 +15,7 @@ import requests
 import json
 import time
 
-BASE = "http://localhost:5001"
+BASE = "https://samvedna-backend.onrender.com"
 SESSION_ID = f"test_session_{int(time.time())}"
 
 
