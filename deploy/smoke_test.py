@@ -14,6 +14,10 @@ import json
 import time
 import urllib.request
 import urllib.error
+import ssl
+import certifi
+
+ssl_context = ssl.create_default_context(cafile=certifi.where())
 
 def req(method, url, body=None, expected=200):
     """Make an HTTP request and return (ok, status_code, data)."""
@@ -21,7 +25,7 @@ def req(method, url, body=None, expected=200):
         data = json.dumps(body).encode() if body else None
         headers = {"Content-Type": "application/json"} if body else {}
         r = urllib.request.Request(url, data=data, headers=headers, method=method)
-        with urllib.request.urlopen(r, timeout=30) as resp:
+        with urllib.request.urlopen(r, timeout=30, context=ssl_context) as resp:
             content = json.loads(resp.read())
             ok = resp.status == expected
             return ok, resp.status, content

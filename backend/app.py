@@ -34,8 +34,19 @@ from firebase_admin import credentials, firestore
 app = Flask(__name__)
 
 # Allow ALL origins during development
-CORS(app, resources={r"/*": {"origins": "*"}})
 
+CORS(
+    app,
+    supports_credentials=True,
+    resources={
+        r"/api/*": {
+            "origins": [
+                "http://localhost:5173",
+                "https://samvedna-beta.vercel.app"
+            ]
+        }
+    }
+)
 # ── Firebase init ─────────────────────────────────────────────────────────────
 db = None
 
